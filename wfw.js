@@ -96,7 +96,7 @@ function reverseGeocode(latlng) {
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://github.com/miklcct/WhatFxxxWords/">WhatF***Words 🄯 Michael Tsang</a>'
 }).addTo(map);
 const lc = L.control.locate({
     setView: false,
