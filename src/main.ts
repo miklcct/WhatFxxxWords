@@ -5,6 +5,8 @@ import L from 'leaflet';
 import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
 import {geocoder, geocoders} from 'leaflet-control-geocoder';
 import {GeocodingCallback, GeocodingResult, IGeocoder} from 'leaflet-control-geocoder/dist/geocoders';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import WhatFreeWords from './whatfreewords.js';
 import './style.css';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.css';
@@ -98,6 +100,12 @@ class CombinedGeocoder implements IGeocoder {
 }
 
 const map = L.map('map').setView([51.505, -0.09], 13);
+
+L.Marker.prototype.options.icon = L.icon({
+    iconUrl : icon,
+    shadowUrl : iconShadow,
+    popupAnchor : [13, 0],
+});
 let marker : L.Marker;
 
 function setMarker(result : GeocodingResult) {
