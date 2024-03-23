@@ -187,9 +187,10 @@ map.on('locationfound', e => {
     }
 });
 geocoder({
-    geocoder: new CombinedGeocoder([whatFreeWords, geocoders.nominatim(), geocoders.latLng()]),
+    geocoder: new CombinedGeocoder([whatFreeWords, geocoders.latLng({next: geocoders.nominatim()})]),
     collapsed: false,
     defaultMarkGeocode: false,
+    suggestMinLength: Infinity,
 })
     .on( 'markgeocode', e => {
         map.setView(e.geocode.center, zoomLevel);
