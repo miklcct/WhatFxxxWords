@@ -4,12 +4,11 @@ const zoomLevel = 19;
 const whatFreeWords = new class {
     geocode(query, cb, context) {
         query = query.split(/\s+/).join('.');
-        const dotCount = query.match(/\./g).length;
-        if (dotCount === 2) {
+        try {
             const result = WhatFreeWords.words2latlon(query);
             const latLng = L.latLng(result[0], result[1]);
             cb.call(context, [{name: query, center: latLng, bbox: L.latLngBounds(latLng, latLng)}]);
-        } else {
+        }catch (e) {
             cb.call(context, []);
         }
     }
@@ -74,13 +73,13 @@ function setMarker(result) {
 
 function load() {
     let words = window.location.pathname.split('/').at(-1);
-    if (/([^\.]*)\.([^\.]*)\.([^\.]*)/.test(words)) {
-        whatFreeWords.geocode(words, function(results) {
+    whatFreeWords.geocode(words, function(results) {
+        if (results.length > 0) {
             const r = results[0];
             setMarker(r);
             map.setView(r.center, zoomLevel);
-        });
-    }
+        }
+    });
 }
 load();
 
