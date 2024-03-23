@@ -616,12 +616,12 @@ WhatFreeWords.n2XYxy = function(n) {
 };
 
 WhatFreeWords.m2ijk = function(m) {
-    let i, j, k;
+    let i, j, k, r;
     let l = Math.floor(WhatFreeWords.cuberoot(m));
     let l2 = l*l;
     let l3 = l*l*l;
     if (l3 <= m && m < l3 + l2 + 2*l + 1) {
-        let r = m-l3;
+        r = m-l3;
         i = l;
         j = r / (l+1);
         k = r % (l+1);
@@ -822,6 +822,4 @@ WhatFreeWords.build_words();
 
 // src/foot.js:
 
-try {
-    module.exports = exports = WhatFreeWords;
-} catch (e) {}
+export default WhatFreeWords;
