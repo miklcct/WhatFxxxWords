@@ -118,7 +118,7 @@ function setMarker(result : GeocodingResult) {
         marker = L.marker(center).bindPopup(content).addTo(map);
     }
     marker.openPopup();
-    document.title = `${result.name} - WhatF***Words`;
+    document.title = result.name;
 }
 
 function load() {
