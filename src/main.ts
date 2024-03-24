@@ -104,7 +104,8 @@ const map = L.map('map').setView([51.505, -0.09] /* Central London */, 15);
 L.Marker.prototype.options.icon = L.icon({
     iconUrl : icon,
     shadowUrl : iconShadow,
-    popupAnchor : [13, 0],
+    iconAnchor : [13, 41],
+    popupAnchor : [0, -41],
 });
 let marker : L.Marker;
 
@@ -122,8 +123,8 @@ function setMarker(result : GeocodingResult) {
 }
 
 function load() {
-    const words = window.location.pathname.split('/').at(-1);
-    if (words !== undefined) {
+    const words = window.location.hash.substring(1);
+    if (words !== '') {
         whatFreeWords.geocode(words, results => {
             if (results.length > 0) {
                 const r = results[0];
@@ -136,6 +137,7 @@ function load() {
     return false;
 }
 let activating = !load();
+let currentPosition : L.LatLng | null;
 
 function reverseGeocode(latlng : L.LatLngLiteral) {
     whatFreeWords.reverse(
@@ -143,8 +145,7 @@ function reverseGeocode(latlng : L.LatLngLiteral) {
         , results => {
             const r = results[0];
             if (r) {
-                setMarker(r);
-                window.history.pushState(null, '', r.name);
+                window.location.hash = `#${r.name}`;
             }
         }
     );
@@ -174,7 +175,11 @@ options.createButtonCallback = (
         // FIXME: library bug reported as DefinitelyTyped/DefinitelyTyped#69139
         const result = original!.bind(this)(container, options) as unknown as {link : HTMLElement, icon : HTMLElement};
         L.DomEvent.on(result.link, 'click', () => {
-            activating = true;
+            if (currentPosition) {
+                reverseGeocode(currentPosition);
+            } else {
+                activating = true;
+            }
         });
         return result;
     }
@@ -182,10 +187,14 @@ options.createButtonCallback = (
 lc.addTo(map);
 lc.start();
 map.on('locationfound', e => {
-    if (activating && e.accuracy <= 1000) {
-        map.setView(e.latlng, zoomLevel);
-        reverseGeocode(e.latlng);
-        activating = false;
+    if (e.accuracy < 100) {
+        currentPosition = e.latlng;
+        if (activating) {
+            reverseGeocode(currentPosition);
+            activating = false;
+        }
+    } else {
+        currentPosition = null;
     }
 });
 geocoder({
@@ -195,7 +204,6 @@ geocoder({
     suggestMinLength: Infinity,
 })
     .on( 'markgeocode', e => {
-        map.setView(e.geocode.center, zoomLevel);
         reverseGeocode(e.geocode.center);
     })
     .addTo(map);
