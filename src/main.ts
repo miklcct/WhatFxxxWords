@@ -112,7 +112,7 @@ let marker : L.Marker;
 function setMarker(result : GeocodingResult) {
     const center = result.center;
     const formattedCenter = `${center.lat.toFixed(6)},${center.lng.toFixed(6)}`;
-    const content = `<div class="popup"><p class="name">${result.name}</p><p class="latlng"><a href="geo:${formattedCenter}">${formattedCenter}</a></p>`;
+    const content = `<div class="popup"><p class="name">${result.name}</p><p class="latlng"><a target="_blank" href="geo:${formattedCenter}">${formattedCenter}</a></p>`;
     if (marker) {
         marker.setLatLng(center).setPopupContent(content);
     } else {
@@ -153,8 +153,11 @@ function reverseGeocode(latlng : L.LatLngLiteral) {
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://github.com/miklcct/WhatFxxxWords/">WhatF***Words 🄯 Michael Tsang</a>'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>, '
+        + '<a href="https://github.com/miklcct/WhatFxxxWords/" target="_blank">WhatF***Words 🄯 Michael Tsang</a>'
 }).addTo(map);
+const ukrainianFlag = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"/><path fill="#FFD500" d="M0 4h12v3H0z"/><path fill="#E0BC00" d="M0 7h12v1H0z"/></svg>';
+map.attributionControl.setPrefix(`<a href="https://leafletjs.com" title="A JavaScript library for interactive maps" target="_blank">${ukrainianFlag}Leaflet</a>`);
 
 const lc = L.control.locate({
     setView: false,
