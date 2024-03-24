@@ -1,6 +1,10 @@
 {
   "name": "whatfxxxwords",
-  "keywords": ["maps", "geo", "geolocation"],
+  "keywords": [
+    "maps",
+    "geo",
+    "geolocation"
+  ],
   "homepage": "https://github.com/miklcct/WhatFxxxWords",
   "license": "AGPL-3.0-or-later",
   "author": {
