@@ -99,7 +99,7 @@ class CombinedGeocoder implements IGeocoder {
     }
 }
 
-const map = L.map('map').setView([51.505, -0.09], 13);
+const map = L.map('map').setView([51.505, -0.09] /* Central London */, 15);
 
 L.Marker.prototype.options.icon = L.icon({
     iconUrl : icon,
@@ -166,7 +166,7 @@ const lc = L.control.locate({
         enableHighAccuracy: true,
     },
 });
-let activating = false;
+let activating = true;
 const options = lc.options as L.Control.LocateOptions;
 options.createButtonCallback = (
     original => function (this : L.Control.LocateOptions, container, options) {
@@ -179,6 +179,7 @@ options.createButtonCallback = (
     }
 )(options.createButtonCallback);
 lc.addTo(map);
+lc.start();
 map.on('locationfound', e => {
     if (activating && e.accuracy <= 1000) {
         map.setView(e.latlng, zoomLevel);
