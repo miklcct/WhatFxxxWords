@@ -1,8 +1,12 @@
 {
   "name": "whatfxxxwords",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "keywords": ["maps", "geo", "geolocation"],
+  "homepage": "https://github.com/miklcct/WhatFxxxWords",
+  "license": "AGPL-3.0-or-later",
+  "author": {
+    "name": "Michael Tsang",
+    "email": "miklcct@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
