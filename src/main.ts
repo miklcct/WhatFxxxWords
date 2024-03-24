@@ -131,9 +131,11 @@ function load() {
                 map.setView(r.center, zoomLevel);
             }
         });
+        return true;
     }
+    return false;
 }
-load();
+let activating = !load();
 
 function reverseGeocode(latlng : L.LatLngLiteral) {
     whatFreeWords.reverse(
@@ -166,7 +168,6 @@ const lc = L.control.locate({
         enableHighAccuracy: true,
     },
 });
-let activating = true;
 const options = lc.options as L.Control.LocateOptions;
 options.createButtonCallback = (
     original => function (this : L.Control.LocateOptions, container, options) {
